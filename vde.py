@@ -56,12 +56,14 @@ def extract(video_path, start_sec, end_sec, save_folder=None, save_video=False):
     return image_folder
 
 def parseTarget(ex):
-    if '-' in ex:
-        s, e = ex.split('-')
-        return [str(x) for x in range(int(s), int(e)+1)]
-    if ',' in ex:
-        return ex.split(',')
-    return ex
+    res = []
+    for a in ex.split(','):
+        if '-' in a:
+            s, e = a.split('-')
+            res += [str(x) for x in range(int(s), int(e)+1)]
+        else:
+            res += [a]
+    return res
 
 
 if __name__ == '__main__':
