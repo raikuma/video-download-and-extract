@@ -10,6 +10,9 @@ from pytube import YouTube
 from pytube.cli import on_progress
 import ffmpeg
 
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 def download(url, url_type, download_folder):
     if url_type == 'youtube':
         yt = YouTube(url, on_progress_callback=on_progress)
@@ -18,17 +21,14 @@ def download(url, url_type, download_folder):
         video_path = stream.download(download_folder)
     
     if url_type == 'url':
-        pbar = tqdm()
+        pbar = tqdm(unit='B', unit_scale=True, unit_divisor=1024)
         def download_hook(count, block_size, total_size):
             pbar.total = total_size
             pbar.update(block_size)
         video_path = os.path.join(download_folder, os.path.basename(url))
-        try:
-            request.urlretrieve(url, video_path, download_hook)
-        except:
-            opener = request.URLopener()
-            opener.addheader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36')
-            opener.retrieve(url, video_path, reporthook=download_hook)
+        opener = request.URLopener()
+        opener.addheader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36')
+        opener.retrieve(url, video_path, reporthook=download_hook)
         pbar.close()
     
     return video_path
@@ -58,7 +58,7 @@ def extract(video_path, start_sec, end_sec, save_folder=None, save_video=False):
 def parseTarget(ex):
     if '-' in ex:
         s, e = ex.split('-')
-        return list(range(s, e+1))
+        return [str(x) for x in range(int(s), int(e)+1)]
     if ',' in ex:
         return ex.split(',')
     return ex
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     os.makedirs(output_path, exist_ok=True)
 
     for video in video_list:
-        if not video['id'] in target:
+        if target != 'all' and not video['id'] in target:
             continue
 
         print(f"[{video['id']}]")
@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
         if do_download:
             if not video_exists or force:
-                print(f"download from {video['url']}")
+                print(f"downloading from {video['url']}")
                 video_path = download(
                     url=video['url'],
                     url_type=video['type'],

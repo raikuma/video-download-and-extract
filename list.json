@@ -19,19 +19,5 @@
         "url": "https://cdn.videvo.net/videvo_files/video/free/2017-09/large_watermarked/170609_B_DelhiJamaMasjid_066_1_preview.mp4",
         "start": 9,
         "end": 12
-    },
-    {
-        "id": "3",
-        "type": "url",
-        "url": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
-        "start": 9,
-        "end": 12
-    },
-    {
-        "id": "4",
-        "type": "youtube",
-        "url": "https://www.youtube.com/watch?v=CdahKdIaQ-w",
-        "start": 9,
-        "end": 12
     }
 ]
