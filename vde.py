@@ -38,7 +38,7 @@ def download(url, url_type, download_folder):
     
     return video_path
 
-def extract(video_path, start_sec, end_sec, save_folder=None, save_video=False):
+def extract(video_path, start_sec, end_sec, save_folder=None, save_video=False, verbose=False):
     if save_folder is None:
         image_folder = os.path.join(os.path.dirname(video_path), 'images')
     else:
@@ -89,6 +89,8 @@ if __name__ == '__main__':
         help='save cutted video together')
     parser.add_argument('-t', '--target', type=str, default='all',
         help='specify target video ex) "0" "0,1" "0-2"')
+    parser.add_argument('-v', '--verbose', action='store_true',
+        help='show ffmpeg stdout, stderr')
     args = parser.parse_args()
 
     output_path = args.output
@@ -98,6 +100,7 @@ if __name__ == '__main__':
     force = args.force
     save_video = args.save_video
     target = parseTarget(args.target)
+    verbose = args.verbose
 
     video_list = json.loads(open(list_json_path).read())
     print(f"load {len(video_list)} video info")
@@ -146,7 +149,8 @@ if __name__ == '__main__':
                         start_sec=video['start'],
                         end_sec=video['end'],
                         save_folder=data_path,
-                        save_video=save_video
+                        save_video=save_video,
+                        verbose=verbose
                     )
                     print(f"save images at {image_path}")
                 else:
