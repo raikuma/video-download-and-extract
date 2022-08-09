@@ -16,7 +16,7 @@
 ## Options
 
 ```bash
-usage: vde.py [-h] [-l LIST] [-o OUTPUT] [-d] [-e] [-f] [-s] [-t TARGET]
+usage: vde.py [-h] [-l LIST] [-o OUTPUT] [-d] [-e] [-f] [-s] [-t TARGET] [-v]
 
 VDE: Video download and frame extrat tool
 
