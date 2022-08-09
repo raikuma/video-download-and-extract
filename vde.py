@@ -30,6 +30,11 @@ def download(url, url_type, download_folder):
         opener.addheader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36')
         opener.retrieve(url, video_path, reporthook=download_hook)
         pbar.close()
+        
+    # remove whitespace of filename
+    new_video_path = video_path.replace(' ', '_')
+    shutil.move(video_path, new_video_path)
+    video_path = new_video_path
     
     return video_path
 
