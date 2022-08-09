@@ -50,7 +50,7 @@ def extract(video_path, start_sec, end_sec, save_folder=None, save_video=False, 
 
     stream_in = ffmpeg.input(video_path, ss=str(start_sec), to=str(end_sec))
     stream_out = ffmpeg.output(stream_in, os.path.join(image_folder, '%04d.png'))
-    ffmpeg.run(stream_out, quiet=True)
+    ffmpeg.run(stream_out, quiet=not verbose)
 
     if save_video:
         cut_path = os.path.join(save_folder, 'cut.mp4')
