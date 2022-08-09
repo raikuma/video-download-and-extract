@@ -8,7 +8,6 @@ from urllib import request
 from tqdm import tqdm
 from pytube import YouTube
 from pytube.cli import on_progress
-import ffmpeg
 
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -48,15 +47,21 @@ def extract(video_path, start_sec, end_sec, save_folder=None, save_video=False, 
         shutil.rmtree(image_folder)
     os.makedirs(image_folder, exist_ok=False)
 
-    stream_in = ffmpeg.input(video_path, ss=str(start_sec), to=str(end_sec))
-    stream_out = ffmpeg.output(stream_in, os.path.join(image_folder, '%04d.png'))
-    ffmpeg.run(stream_out, quiet=not verbose)
+    img_path = os.path.join(image_folder, '%04d.png')
+    cmd = f'ffmpeg -i "{video_path}" -ss {start_sec} -to {end_sec} "{img_path}"'
+    if not verbose:
+        cmd += f' -hide_banner -loglevel error'
+    print(cmd)
+    os.system(cmd)
 
     if save_video:
         cut_path = os.path.join(save_folder, 'cut.mp4')
+        cmd = f'ffmpeg -i "{video_path}" -ss {start_sec} -to {end_sec} "{cut_path}" -y'
+        if not verbose:
+            cmd += f' -hide_banner -loglevel error'
+        print(cmd)
+        os.system(cmd)
         print(f"save cutted video at {cut_path}")
-        stream_out = ffmpeg.output(stream_in, cut_path).overwrite_output()
-        ffmpeg.run(stream_out, quiet=True)
 
     return image_folder
 
