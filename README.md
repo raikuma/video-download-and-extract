@@ -20,7 +20,7 @@ usage: vde.py [-h] [-l LIST] [-o OUTPUT] [-d] [-e] [-f] [-s] [-t TARGET]
 
 VDE: Video download and frame extrat tool
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
   -l LIST, --list LIST  json file path of video list (default: ./list.json)
   -o OUTPUT, --output OUTPUT
@@ -31,4 +31,5 @@ options:
   -s, --save_video      save cutted video together
   -t TARGET, --target TARGET
                         specify target video ex) "0" "0,1" "0-2"
+  -v, --verbose         show ffmpeg stdout, stderr
 ```
