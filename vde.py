@@ -61,6 +61,8 @@ def extract(video_path, start_sec, end_sec, save_folder=None, save_video=False):
     return image_folder
 
 def parseTarget(ex):
+    if ex == 'all':
+        return ex
     res = []
     for a in ex.split(','):
         if '-' in a:
