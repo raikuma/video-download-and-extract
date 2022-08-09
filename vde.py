@@ -56,7 +56,7 @@ def extract(video_path, start_sec, end_sec, save_folder=None, save_video=False, 
 
     if save_video:
         cut_path = os.path.join(save_folder, 'cut.mp4')
-        cmd = f'ffmpeg -i "{video_path}" -ss {start_sec} -to {end_sec} "{cut_path}" -y'
+        cmd = f'ffmpeg -i "{video_path}" -ss {start_sec} -to {end_sec} -c:v copy -c:a copy "{cut_path}" -y'
         if not verbose:
             cmd += f' -hide_banner -loglevel error'
         print(cmd)
