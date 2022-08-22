@@ -15,8 +15,9 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 def download(url, url_type, download_folder):
     if url_type == 'youtube':
         yt = YouTube(url, on_progress_callback=on_progress)
-        stream = yt.streams.get_highest_resolution()
-        # stream = yt.streams.get_by_itag(248)
+        stream_1 = yt.streams.get_highest_resolution() # mp4 only
+        stream_2 = yt.streams.order_by("resolution").last() # include webm
+        stream = max(stream_1, stream_2, key=lambda x: int(x.resolution[:-1]))
         video_path = stream.download(download_folder)
     
     if url_type == 'url':
@@ -122,6 +123,7 @@ if __name__ == '__main__':
 
         video_exists = False
         video_paths = glob.glob(os.path.join(data_path, '*.mp4'))
+        video_paths += glob.glob(os.path.join(data_path, '*.webm'))
         if len(video_paths) > 0:
             video_exists = True
             video_path = video_paths[0]
