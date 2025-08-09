@@ -6,8 +6,8 @@ import shutil
 from urllib import request
 
 from tqdm import tqdm
-from pytube import YouTube
-from pytube.cli import on_progress
+from pytubefix import YouTube
+from pytubefix.cli import on_progress
 
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
